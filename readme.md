@@ -1,7 +1,7 @@
 # API Grupo ZAP
 
 ## Instalação
-- git clone git clone https://samirortiz@bitbucket.org/samirortiz/zapi.git
+- git clone https://samirortiz@bitbucket.org/samirortiz/zapi.git
 - composer install
 
 ## Subir o serviço
