@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use App\Services\ZapService;
 use App\Services\VivaRealService;
 use App\Services\ImovelService;
+use Illuminate\Support\Facades\Cache;
 
 class PortalService
 {
@@ -20,10 +21,15 @@ class PortalService
      */
     public function __construct() 
     {
-        $this->client = new Client(['base_uri' => 'http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com']);
-        $response = $this->client->get('/sources/source-2.json');
+        if (!Cache::has('response')) {
+            $this->client = new Client(['base_uri' => env('PORTAL_BASE_URI')]);
+            $response = $this->client->get(env('PORTAL_SOURCE_FILE'))->getBody()->getContents();
 
-        $this->collection = collect(json_decode($response->getBody()->getContents()));
+            Cache::put('response', $response, 60);
+        }
+
+        $response = Cache::get('response');
+        $this->collection = collect(json_decode($response));
     }
 
     /**

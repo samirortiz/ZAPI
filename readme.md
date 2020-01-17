@@ -15,7 +15,8 @@
 - [Lista de imóveis elegíveis VivaReal por página](http://localhost:8000/portal/vivareal/page/2)
 
 ## Observações
-- Utilizar o .env commitado com valores de ambiente para check de Bounding Box
+- Utilizar o .env commitado com valores de ambiente para check de Bounding Box e urls de fonte de dados
+- A aplicação tem 60 segundos de cache para o request na fonte de dados
 
 ## Testes
  - vendor/bin/phpunit

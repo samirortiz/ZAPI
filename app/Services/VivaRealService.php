@@ -11,7 +11,7 @@ class VivaRealService
 
     private $vivaRealMaxRental = 4000;
     private $vivaRealMaxSale = 700000;
-    private $vivaRealBoundingMaxRental = 50;
+    private $vivaRealBoundingMaxRental = 0.5;
     private $vivaRealDiscount = 0.3;
 
     /**
@@ -35,7 +35,7 @@ class VivaRealService
     {
         if ($this->imovel->pricingInfos->businessType == 'RENTAL') {
             if (ImovelService::isInsideBounding($this->imovel)) {
-                $updatedVivaRealMaxRental = $this->vivaRealMaxRental + ($this->vivaRealMaxRental * 0.5);
+                $updatedVivaRealMaxRental = $this->vivaRealMaxRental + ($this->vivaRealMaxRental * $this->vivaRealBoundingMaxRental);
             } else {
                 $updatedVivaRealMaxRental = $this->vivaRealMaxRental;
             }
