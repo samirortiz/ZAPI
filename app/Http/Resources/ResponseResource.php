@@ -18,8 +18,8 @@ class ResponseResource extends JsonResource
      */
     public function toArray($request) : array
     {
-        if (is_null($this->resource)) {
-            abort(404);
+        if (is_null($this->resource)) {  
+            return response()->json(['status' => 500, 'message' => 'Erro interno do servidor', 'hint' => '']);
         }
 
         return [

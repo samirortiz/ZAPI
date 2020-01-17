@@ -10,8 +10,10 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-$router->group(['prefix' => '/'], function() use ($router){
+$router->group(['prefix' => '/'], function() use ($router) {
+    $router->get('', 'PortalController@list');
     $router->get('/portal/{portal}', 'PortalController@list');
+    $router->get('/portal/{portal}/page', 'PortalController@list');
     $router->get('/portal/{portal}/page/{page}', 'PortalController@list');
 });
 

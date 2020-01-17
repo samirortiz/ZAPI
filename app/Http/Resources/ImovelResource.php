@@ -13,7 +13,7 @@ class ImovelResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return Resource
+     * @return ImovelResource
      */
     public function toArray($request) 
     {

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ImovelService; 
+use App\Services\PortalService; 
 use App\Http\Resources\ResponseResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 
 class PortalController extends Controller
@@ -20,20 +21,29 @@ class PortalController extends Controller
      */
     public function __construct()
     {
-        $this->service = new ImovelService();
+        $this->service = app(PortalService::class);
     }
 
-
-    public function list(Request $request) : ResponseResource
+    /**
+     * list
+     *
+     * @param Request $request
+     * 
+     * @return JsonResponse 
+     */
+    public function list(Request $request) : JsonResponse
     {
         if(!$request->portal) {
-            abort(404);
+            return response()->json(['status' => 400, 
+                'message' => 'Nenhum portal selecionado', 
+                'hint' => 'Acesse '.$request->url().'/portal/nomedoportal']);
         }
 
         $response = $this->service->list($request->portal);
 
         if(!count($response)) {
-            abort(404);
+            return response()->json(['status' => 203, 
+                'message' => 'Nenhum registro encontrado', 'hint' => '']);
         }
 
         $page = $request->page ? $request->page : 1;
@@ -48,7 +58,7 @@ class PortalController extends Controller
             ['path' => $request->url()]
         );
 
-        return new ResponseResource($results);       
+        return response()->json(new ResponseResource($results));       
     }
     
 }
