@@ -43,7 +43,7 @@ class VivaRealService
             if ((float)$this->imovel->pricingInfos->rentalTotalPrice <= $updatedVivaRealMaxRental) {
                 if (property_exists($this->imovel->pricingInfos, 'monthlyCondoFee')) {
                     if (is_numeric($this->imovel->pricingInfos->monthlyCondoFee) && (float)$this->imovel->pricingInfos->monthlyCondoFee > 0 
-                        && ((float)$this->imovel->pricingInfos->monthlyCondoFee < ((float)$this->imovel->pricingInfos->price * $vivaRealDiscount))) {
+                        && ((float)$this->imovel->pricingInfos->monthlyCondoFee < ((float)$this->imovel->pricingInfos->price * $this->vivaRealDiscount))) {
                         return true;
                     }
                 }

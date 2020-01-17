@@ -40,7 +40,7 @@ class ZapService
                 
         if ($this->imovel->pricingInfos->businessType == 'SALE') {
             if (ImovelService::isInsideBounding($this->imovel)) {
-                $updatedZapMinSale = $this->zapMinSale - ($this->zapMinSale * $zapDiscount);
+                $updatedZapMinSale = $this->zapMinSale - ($this->zapMinSale * $this->zapDiscount);
             } else {
                 $updatedZapMinSale = $this->zapMinSale;
             }
