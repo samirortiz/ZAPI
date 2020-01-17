@@ -33,7 +33,7 @@ class PortalController extends Controller
      */
     public function list(Request $request) : JsonResponse
     {
-        if(!$request->portal) {
+        if (!$request->portal) {
             return response()->json(['status' => 400, 
                 'message' => 'Nenhum portal selecionado', 
                 'hint' => 'Acesse '.$request->url().'/portal/nomedoportal']);
@@ -41,13 +41,14 @@ class PortalController extends Controller
 
         $response = $this->service->list($request->portal);
 
-        if(!count($response)) {
+        if (!count($response)) {
             return response()->json(['status' => 203, 
-                'message' => 'Nenhum registro encontrado', 'hint' => '']);
+                'message' => 'Nenhum registro encontrado', 
+                'hint' => '']);
         }
 
         $page = $request->page ? $request->page : 1;
-        $perPage = $request->per_page ? $request->per_page : 15;
+        $perPage = $request->per_page ? $request->per_page : 20;
         $offset = ($page * $perPage) - $perPage;
 
         $results =  new LengthAwarePaginator(

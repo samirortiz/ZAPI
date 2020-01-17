@@ -12,6 +12,7 @@ class ZapService
     private $zapMinSquareValue = 3500;
     private $zapMinSale = 600000;
     private $zapMinRental = 3500;
+    private $zapDiscount = 0.1;
 
     /**
      * Create a new service instance.
@@ -32,19 +33,20 @@ class ZapService
      */
     public function validate() : bool
     {
-        if($this->imovel->pricingInfos->businessType == 'RENTAL' && (float)$this->imovel->pricingInfos->rentalTotalPrice >= $this->zapMinRental) {
+        if ($this->imovel->pricingInfos->businessType == 'RENTAL' 
+            && (float)$this->imovel->pricingInfos->rentalTotalPrice >= $this->zapMinRental) {
             return true;
         }
                 
-        if($this->imovel->pricingInfos->businessType == 'SALE') {
-            if(ImovelService::isInsideBounding($this->imovel)) {
-                $updatedZapMinSale = $this->zapMinSale - ($this->zapMinSale * 0.1);
+        if ($this->imovel->pricingInfos->businessType == 'SALE') {
+            if (ImovelService::isInsideBounding($this->imovel)) {
+                $updatedZapMinSale = $this->zapMinSale - ($this->zapMinSale * $zapDiscount);
             } else {
                 $updatedZapMinSale = $this->zapMinSale;
             }
             
-            if((float)$this->imovel->pricingInfos->price >= $updatedZapMinSale) {
-                if((float)$this->imovel->pricingInfos->price/(float)$this->imovel->usableAreas > $this->zapMinSquareValue) {
+            if ((float)$this->imovel->pricingInfos->price >= $updatedZapMinSale) {
+                if ((float)$this->imovel->pricingInfos->price / (float)$this->imovel->usableAreas > $this->zapMinSquareValue) {
                     return true;
                 }
             }

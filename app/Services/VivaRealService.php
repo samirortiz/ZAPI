@@ -12,6 +12,7 @@ class VivaRealService
     private $vivaRealMaxRental = 4000;
     private $vivaRealMaxSale = 700000;
     private $vivaRealBoundingMaxRental = 50;
+    private $vivaRealDiscount = 0.3;
 
     /**
      * Create a new service instance.
@@ -32,24 +33,25 @@ class VivaRealService
      */
     public function validate() : bool
     {
-        if($this->imovel->pricingInfos->businessType == 'RENTAL') {
-            if(ImovelService::isInsideBounding($this->imovel)) {
-                $updatedVivaRealMaxRental = $this->vivaRealMaxRental  + ($this->vivaRealMaxRental * 0.5);
+        if ($this->imovel->pricingInfos->businessType == 'RENTAL') {
+            if (ImovelService::isInsideBounding($this->imovel)) {
+                $updatedVivaRealMaxRental = $this->vivaRealMaxRental + ($this->vivaRealMaxRental * 0.5);
             } else {
                 $updatedVivaRealMaxRental = $this->vivaRealMaxRental;
             }
 
-            if((float)$this->imovel->pricingInfos->rentalTotalPrice <= $updatedVivaRealMaxRental) {
-                if(property_exists($this->imovel->pricingInfos, 'monthlyCondoFee')) {
-                    if(is_numeric($this->imovel->pricingInfos->monthlyCondoFee) && (float)$this->imovel->pricingInfos->monthlyCondoFee > 0 
-                        && ((float)$this->imovel->pricingInfos->monthlyCondoFee < ((float)$this->imovel->pricingInfos->price * 0.3))) {
+            if ((float)$this->imovel->pricingInfos->rentalTotalPrice <= $updatedVivaRealMaxRental) {
+                if (property_exists($this->imovel->pricingInfos, 'monthlyCondoFee')) {
+                    if (is_numeric($this->imovel->pricingInfos->monthlyCondoFee) && (float)$this->imovel->pricingInfos->monthlyCondoFee > 0 
+                        && ((float)$this->imovel->pricingInfos->monthlyCondoFee < ((float)$this->imovel->pricingInfos->price * $vivaRealDiscount))) {
                         return true;
                     }
                 }
             }
         }
 
-        if($this->imovel->pricingInfos->businessType == 'SALE' && (float)$this->imovel->pricingInfos->price <= $this->vivaRealMaxSale) {
+        if ($this->imovel->pricingInfos->businessType == 'SALE' 
+            && (float)$this->imovel->pricingInfos->price <= $this->vivaRealMaxSale) {
             return true;
         }
         return false;

@@ -37,9 +37,9 @@ class PortalService
     {
         $listings = [];
 
-        foreach($this->collection as $key => $imovel) 
+        foreach ($this->collection as $key => $imovel) 
         {
-            if(!ImovelService::validate($imovel)) {
+            if (!ImovelService::validate($imovel)) {
                 continue;
             }
 
@@ -56,7 +56,7 @@ class PortalService
                 case 'vivareal':
                     $vivaRealService = new VivaRealService($imovel);
                     
-                    if($vivaRealService->validate()) {
+                    if ($vivaRealService->validate()) {
                         $listings[] = $vivaRealService->getImovel();
                     }
                 break;
@@ -77,7 +77,7 @@ class PortalService
      */
     public static function isInsideBounding(Object $imovel) : bool
     {
-        if($imovel->address->geoLocation->location->lat >= env('BOUNDING_BOX_MIN_LAT') 
+        if ($imovel->address->geoLocation->location->lat >= env('BOUNDING_BOX_MIN_LAT') 
             && $imovel->address->geoLocation->location->lat <= env('BOUNDING_BOX_MAX_LAT') 
             && $imovel->address->geoLocation->location->lon >= env('BOUNDING_BOX_MIN_LONG') 
             && $imovel->address->geoLocation->location->lon <= env('BOUNDING_BOX_MAX_LONG')) {

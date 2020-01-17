@@ -13,7 +13,7 @@ class ImovelService
      */
     public static function isInsideBounding(Object $imovel) : bool
     {
-        if($imovel->address->geoLocation->location->lat >= env('BOUNDING_BOX_MIN_LAT') 
+        if ($imovel->address->geoLocation->location->lat >= env('BOUNDING_BOX_MIN_LAT') 
             && $imovel->address->geoLocation->location->lat <= env('BOUNDING_BOX_MAX_LAT') 
             && $imovel->address->geoLocation->location->lon >= env('BOUNDING_BOX_MIN_LONG') 
             && $imovel->address->geoLocation->location->lon <= env('BOUNDING_BOX_MAX_LONG')) {
