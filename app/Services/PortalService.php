@@ -39,20 +39,17 @@ class PortalService
      *
      * @return collection
      */
-    public function list($portal) : collection
+    public function list($request) : collection
     {
         $listings = [];
-
         foreach ($this->collection as $key => $imovel) 
         {
             if (!ImovelService::validate($imovel)) {
                 continue;
             }
-
-            switch ($portal) {
-
-                case 'zap': 
-                    $zapService = new ZapService($imovel);
+            switch ($request->portal) {
+                case 'zap':
+                    $zapService = new ZapService($imovel, urldecode($request->neighborhood));
                     
                     if($zapService->validate()) {
                         $listings[] = $zapService->getImovel();
@@ -60,7 +57,7 @@ class PortalService
                 break;
 
                 case 'vivareal':
-                    $vivaRealService = new VivaRealService($imovel);
+                    $vivaRealService = new VivaRealService($imovel, urldecode($request->neighborhood));
                     
                     if ($vivaRealService->validate()) {
                         $listings[] = $vivaRealService->getImovel();
@@ -68,45 +65,10 @@ class PortalService
                 break;
 
                 default:
-                    abort(404);
+                    return collect($listings);
             }
         }
         return collect($listings);
-    }
-
-    /**
-     * isInsideBounding
-     *
-     * @param Object $imovel
-     *
-     * @return bool
-     */
-    public static function isInsideBounding(Object $imovel) : bool
-    {
-        if ($imovel->address->geoLocation->location->lat >= env('BOUNDING_BOX_MIN_LAT') 
-            && $imovel->address->geoLocation->location->lat <= env('BOUNDING_BOX_MAX_LAT') 
-            && $imovel->address->geoLocation->location->lon >= env('BOUNDING_BOX_MIN_LONG') 
-            && $imovel->address->geoLocation->location->lon <= env('BOUNDING_BOX_MAX_LONG')) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * validate
-     *
-     * @param Object $imovel
-     *
-     * @return bool
-     */
-    public function validate(Object $imovel) : bool
-    {
-        if ($imovel->address->geoLocation->location->lon == 0 
-            || $imovel->address->geoLocation->location->lat == 0 
-            || (float)$imovel->usableAreas == 0) {
-            return false;
-        }
-        return true;
     }
 
 }

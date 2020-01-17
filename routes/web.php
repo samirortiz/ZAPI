@@ -15,5 +15,6 @@ $router->group(['prefix' => '/'], function() use ($router) {
     $router->get('/portal/{portal}', 'PortalController@list');
     $router->get('/portal/{portal}/page', 'PortalController@list');
     $router->get('/portal/{portal}/page/{page}', 'PortalController@list');
+    $router->get('/portal/{portal}/neighborhood/{neighborhood}', 'PortalController@list');
 });
 

@@ -39,7 +39,7 @@ class PortalController extends Controller
                 'hint' => 'Acesse '.$request->url().'/portal/nomedoportal']);
         }
 
-        $response = $this->service->list($request->portal);
+        $response = $this->service->list($request);
 
         if (!count($response)) {
             return response()->json(['status' => 203, 

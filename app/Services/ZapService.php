@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Services\PortalService;
 use App\Services\ImovelService;
+use Illuminate\Support\Str;
 
 class ZapService
 {
     private $imovel;
+    private $neighborhood;
 
     private $zapMinSquareValue = 3500;
     private $zapMinSale = 600000;
@@ -19,9 +21,10 @@ class ZapService
      *
      * @return void
      */    
-    public function __construct(Object $imovel) 
+    public function __construct(Object $imovel, string $neighborhood = null) 
     {
         $this->imovel = $imovel;
+        $this->neighborhood = ImovelService::tirarAcentos($neighborhood) ?? null;
     }
 
     /**
@@ -35,6 +38,13 @@ class ZapService
     {
         if ($this->imovel->pricingInfos->businessType == 'RENTAL' 
             && (float)$this->imovel->pricingInfos->rentalTotalPrice >= $this->zapMinRental) {
+            if (!empty($this->neighborhood) && !\is_null($this->neighborhood)) {
+                if (Str::slug(ImovelService::tirarAcentos($this->imovel->address->neighborhood)) == Str::slug($this->neighborhood)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
             return true;
         }
                 
@@ -47,6 +57,13 @@ class ZapService
             
             if ((float)$this->imovel->pricingInfos->price >= $updatedZapMinSale) {
                 if ((float)$this->imovel->pricingInfos->price / (float)$this->imovel->usableAreas > $this->zapMinSquareValue) {
+                    if (!empty($this->neighborhood) && !\is_null($this->neighborhood)) {
+                        if (Str::slug(ImovelService::tirarAcentos($this->imovel->address->neighborhood)) == Str::slug($this->neighborhood)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
                     return true;
                 }
             }
