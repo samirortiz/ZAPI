@@ -48,7 +48,7 @@ class PortalController extends Controller
         }
 
         $page = $request->page ? $request->page : 1;
-        $perPage = $request->per_page ? $request->per_page : 20;
+        $perPage = $request->per_page ? $request->per_page : (!$request->neighborhood ? 20 : 100);
         $offset = ($page * $perPage) - $perPage;
 
         $results =  new LengthAwarePaginator(
