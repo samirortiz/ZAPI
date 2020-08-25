@@ -2769,7 +2769,8 @@
                 "mime",
                 "mime-type"
             ],
-            "time": "2020-04-17T03:29:44+00:00"
+
+            "time": "2020-03-27T16:56:45+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2855,6 +2856,7 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.17-dev"
+
                 }
             },
             "autoload": {
@@ -2962,6 +2964,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/f048e612a3905f34931127360bdd2def19a5e582",
                 "reference": "f048e612a3905f34931127360bdd2def19a5e582",
+
                 "shasum": ""
             },
             "require": {
